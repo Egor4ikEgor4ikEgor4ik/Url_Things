@@ -31,9 +31,15 @@ if user_choice==1:
     response = requests.post('https://api-ssl.bitly.com/v4/bitlinks', headers=headers, json=params)
     response.raise_for_status()
     user_link=response.json()["link"]
-    print (user_link,"Ваша ссылочка")
+    print (user_link,"-Ваша ссылочка")
 else:
-    print ("узнать количество кликов")
+    headers = {
+        'Authorization': f'Bearer {access_token_bitly}',
+    }
+    user_bit_link=input("ВВЕДИТЕ ВАШУ СОКРАЩЕННУЮ ССЫЛКУ БЕЗ HTTPS://:  ")
+    response = requests.get(f'https://api-ssl.bitly.com/v4/bitlinks/{user_bit_link}/clicks/summary', headers=headers,)
+    user_clicks=response.json()["total_clicks"]
+    print("КЛИКОВ НА ЭТОЙ ССЫЛКЕ",user_clicks)
 
 
 
